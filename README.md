@@ -20,10 +20,7 @@ Differences:
 ## Result
 This repository contains only the Keras implementation of the model.
 
-The model is tested on CIFAR-10 & CIFAR-100 and achieves the following performance:
-```
-loss: 0.xxxx - acc: 0.xxxx - val_loss: 0.xxxx - val_acc: xxxx
-```
+In future I plan to test the model on CIFAR-10, CIFAR-100 and other computer vision benchmarks.
 
 
 ## Model Visualization
