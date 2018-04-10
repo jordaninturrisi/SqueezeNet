@@ -15,7 +15,7 @@ Differences:
 - Create variables for data format, kernel initialisation, activation function for easier modifications
 - Include models SqueezeNet v1.0 and SqueezeNet v1.1
 
-**What's new in SqueezeNet v1.1?**
+**SqueezeNet v1.0 vs. SqueezeNet v1.1**
 
 |                 | SqueezeNet v1.0                  | SqueezeNet v1.1                  |
 | :------------- |:-------------:| :-----:|
