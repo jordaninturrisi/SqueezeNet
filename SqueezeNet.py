@@ -38,15 +38,16 @@ def fire_module(name,x,sp,e11p,e33p,act,data_format,init):
 
     return output
 
-def SqueezeNet(H,W,C,num_classes,act):
+def SqueezeNet_v1_0(H,W,C,num_classes,act):
     """
-    Keras implementation of SqueezeNet (arXiv: 1602.07360)
+    Keras implementation of SqueezeNet v1.0 (arXiv: 1602.07360)
     (https://arxiv.org/abs/1602.07360)
+    (https://github.com/DeepScale/SqueezeNet)
 
     Inputs:
     - H: number of vertical pixels
     - W: number of horizontal pixels
-    - C: number of channels
+    - C: number of input channels (generally number of colour channels)
     - num_classes: total number of final categories
     - act: activation function
 
@@ -54,7 +55,7 @@ def SqueezeNet(H,W,C,num_classes,act):
     - model: SqueezeNet model
     """
 
-    data_format = 'channels_first'
+    data_format = 'channels_last'
     init = 'glorot_uniform'
 
     if (data_format == 'channels_first'):
@@ -92,6 +93,73 @@ def SqueezeNet(H,W,C,num_classes,act):
     data_format=data_format)(fire8)
 
     fire9 = fire_module('fire9',maxpool8,64,256,256,act,data_format,init)
+
+    fire9_dropout = Dropout(rate=0.5, name='fire9_dropout')(fire9)
+
+    conv10 = Conv2D(filters=num_classes, kernel_size=[1,1],
+    kernel_initializer=init, padding='valid', name='conv10',
+    data_format=data_format)(fire9_dropout)
+
+    global_avgpool10 = GlobalAveragePooling2D(data_format=data_format)(conv10)
+    softmax = Activation(activation="softmax", name='softmax')(global_avgpool10)
+
+    return Model(inputs=input_img, outputs=softmax)
+
+def SqueezeNet_v1_1(H,W,C,num_classes,act):
+    """
+    Keras implementation of SqueezeNet v1.1 (arXiv: 1602.07360)
+    (https://arxiv.org/abs/1602.07360)
+    (https://github.com/DeepScale/SqueezeNet)
+
+    Inputs:
+    - H: number of vertical pixels
+    - W: number of horizontal pixels
+    - C: number of input channels (generally number of colour channels)
+    - num_classes: total number of final categories
+    - act: activation function
+
+    Returns:
+    - model: SqueezeNet model
+    """
+
+    data_format = 'channels_last'
+    init = 'glorot_uniform'
+
+    if (data_format == 'channels_first'):
+        input_img = Input(shape=[C,H,W])
+    elif (data_format == 'channels_last'):
+        input_img = Input(shape=[H,W,C])
+    else:
+        print('ValueError: The `data_format` argument must be one of "channels_first", "channels_last"')
+
+    conv1 = Conv2D(filters=64, kernel_size=[3,3], activation=act,
+    kernel_initializer=init, strides=[2,2], padding='same',
+    name='conv1', data_format=data_format)(input_img)
+
+    maxpool1 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool1',
+    data_format=data_format)(conv1)
+
+    fire2 = fire_module('fire2',maxpool1,16,64,64,act,data_format,init)
+
+    fire3 = fire_module('fire3',fire2,16,64,64,act,data_format,init)
+
+    maxpool3 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool3',
+    data_format=data_format)(fire3)
+
+    fire4 = fire_module('fire4',maxpool3,32,128,128,act,data_format,init)
+
+    fire5 = fire_module('fire5',fire4,32,128,128,act,data_format,init)
+
+    maxpool5 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool5',
+    data_format=data_format)(fire5)
+
+    fire6 = fire_module('fire6',maxpool5,48,192,192,act,data_format,init)
+
+    fire7 = fire_module('fire7',fire6,48,192,192,act,data_format,init)
+
+    fire8 = fire_module('fire8',fire7,64,256,256,act,data_format,init)
+
+    fire9 = fire_module('fire9',fire8,64,256,256,act,data_format,init)
 
     fire9_dropout = Dropout(rate=0.5, name='fire9_dropout')(fire9)
 
