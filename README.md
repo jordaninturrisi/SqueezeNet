@@ -1,5 +1,5 @@
 # SqueezeNet Keras Implementation
-This is a Keras implementation of [SqueezeNet](https://arxiv.org/pdf/1602.07360.pdf) (arXiv 1602.07360) using the Keras functional API.
+This is a Keras implementation of [SqueezeNet](https://arxiv.org/abs/1602.07360) (arXiv 1602.07360) using the Keras functional API.
 
 SqueezeNet boasts AlexNet-level accuracy with 50x fewer parameters and 4.8MB model size. Through Deep Compression and further quantization, SqueezeNet can maintain AlexNet-level accuracy with 510x fewer parameters and 0.47MB model size. The original model was implemented in Caffe [here](https://github.com/DeepScale/SqueezeNet).
 
@@ -25,14 +25,6 @@ Differences:
 | ImageNet accuracy        | >= 80.3% top-5                   | >= 80.3% top-5                   |    
 
 SqueezeNet v1.1 has 2.4x less computation than v1.0, without sacrificing accuracy.
-
-## Result
-This repository contains only the Keras implementation of the model.
-
-The model is tested on CIFAR-10 & CIFAR-100 and achieves the following performance:
-```
-loss: 0.xxxx - acc: 0.xxxx - val_loss: 0.xxxx - val_acc: xxxx
-```
 
 
 ## Model Visualization

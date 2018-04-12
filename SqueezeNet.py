@@ -1,6 +1,7 @@
 from keras.models import Model
 from keras.layers import Input, Activation, Concatenate, Conv2D
-from keras.layers import Dropout, MaxPooling2D, GlobalAveragePooling2D
+from keras.layers import MaxPooling2D, GlobalAveragePooling2D
+from keras.layers import Dropout
 
 def fire_module(name,x,sp,e11p,e33p,act,data_format,init):
     """
@@ -38,6 +39,7 @@ def fire_module(name,x,sp,e11p,e33p,act,data_format,init):
 
     return output
 
+
 def SqueezeNet_v1_0(H,W,C,num_classes,act):
     """
     Keras implementation of SqueezeNet v1.0 (arXiv: 1602.07360)
@@ -52,7 +54,7 @@ def SqueezeNet_v1_0(H,W,C,num_classes,act):
     - act: activation function
 
     Returns:
-    - model: SqueezeNet model
+    - model: SqueezeNet v1.0 model
     """
 
     data_format = 'channels_last'
@@ -105,6 +107,7 @@ def SqueezeNet_v1_0(H,W,C,num_classes,act):
 
     return Model(inputs=input_img, outputs=softmax)
 
+
 def SqueezeNet_v1_1(H,W,C,num_classes,act):
     """
     Keras implementation of SqueezeNet v1.1 (arXiv: 1602.07360)
@@ -119,7 +122,7 @@ def SqueezeNet_v1_1(H,W,C,num_classes,act):
     - act: activation function
 
     Returns:
-    - model: SqueezeNet model
+    - model: SqueezeNet v1.1 model
     """
 
     data_format = 'channels_last'
