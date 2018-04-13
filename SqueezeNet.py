@@ -3,7 +3,7 @@ from keras.layers import Input, Activation, Concatenate, Conv2D
 from keras.layers import MaxPooling2D, GlobalAveragePooling2D
 from keras.layers import Dropout
 
-def fire_module(name,x,sp,e11p,e33p,act,data_format,init):
+def fire_module(name, x, sp, e11p, e33p, act, data_format, init):
     """
     Fire module of SqueezeNet model
 
@@ -40,7 +40,7 @@ def fire_module(name,x,sp,e11p,e33p,act,data_format,init):
     return output
 
 
-def SqueezeNet_v1_0(H,W,C,num_classes,act):
+def SqueezeNet_v1_0(H, W, C, num_classes, act):
     """
     Keras implementation of SqueezeNet v1.0 (arXiv: 1602.07360)
     (https://arxiv.org/abs/1602.07360)
@@ -61,9 +61,9 @@ def SqueezeNet_v1_0(H,W,C,num_classes,act):
     init = 'glorot_uniform'
 
     if (data_format == 'channels_first'):
-        input_img = Input(shape=[C,H,W])
+        input_img = Input(shape=[C,H,W], name='Input')
     elif (data_format == 'channels_last'):
-        input_img = Input(shape=[H,W,C])
+        input_img = Input(shape=[H,W,C], name='Input')
     else:
         print('ValueError: The `data_format` argument must be one of "channels_first", "channels_last"')
 
@@ -74,27 +74,27 @@ def SqueezeNet_v1_0(H,W,C,num_classes,act):
     maxpool1 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool1',
     data_format=data_format)(conv1)
 
-    fire2 = fire_module('fire2',maxpool1,16,64,64,act,data_format,init)
+    fire2 = fire_module('fire2', maxpool1, 16, 64, 64, act, data_format, init)
 
-    fire3 = fire_module('fire3',fire2,16,64,64,act,data_format,init)
+    fire3 = fire_module('fire3', fire2, 16, 64, 64, act, data_format, init)
 
-    fire4 = fire_module('fire4',fire3,32,128,128,act,data_format,init)
+    fire4 = fire_module('fire4', fire3, 32, 128, 128, act, data_format, init)
 
     maxpool4 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool4',
     data_format=data_format)(fire4)
 
-    fire5 = fire_module('fire5',maxpool4,32,128,128,act,data_format,init)
+    fire5 = fire_module('fire5', maxpool4, 32, 128, 128, act, data_format, init)
 
-    fire6 = fire_module('fire6',fire5,48,192,192,act,data_format,init)
+    fire6 = fire_module('fire6', fire5, 48, 192, 192, act, data_format, init)
 
-    fire7 = fire_module('fire7',fire6,48,192,192,act,data_format,init)
+    fire7 = fire_module('fire7', fire6, 48, 192, 192, act, data_format, init)
 
-    fire8 = fire_module('fire8',fire7,64,256,256,act,data_format,init)
+    fire8 = fire_module('fire8', fire7, 64, 256, 256, act, data_format, init)
 
     maxpool8 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool8',
     data_format=data_format)(fire8)
 
-    fire9 = fire_module('fire9',maxpool8,64,256,256,act,data_format,init)
+    fire9 = fire_module('fire9', maxpool8, 64, 256, 256, act, data_format, init)
 
     fire9_dropout = Dropout(rate=0.5, name='fire9_dropout')(fire9)
 
@@ -108,7 +108,7 @@ def SqueezeNet_v1_0(H,W,C,num_classes,act):
     return Model(inputs=input_img, outputs=softmax)
 
 
-def SqueezeNet_v1_1(H,W,C,num_classes,act):
+def SqueezeNet_v1_1(H, W, C, num_classes, act):
     """
     Keras implementation of SqueezeNet v1.1 (arXiv: 1602.07360)
     (https://arxiv.org/abs/1602.07360)
@@ -129,9 +129,9 @@ def SqueezeNet_v1_1(H,W,C,num_classes,act):
     init = 'glorot_uniform'
 
     if (data_format == 'channels_first'):
-        input_img = Input(shape=[C,H,W])
+        input_img = Input(shape=[C,H,W], name='Input')
     elif (data_format == 'channels_last'):
-        input_img = Input(shape=[H,W,C])
+        input_img = Input(shape=[H,W,C], name='Input')
     else:
         print('ValueError: The `data_format` argument must be one of "channels_first", "channels_last"')
 
@@ -142,27 +142,27 @@ def SqueezeNet_v1_1(H,W,C,num_classes,act):
     maxpool1 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool1',
     data_format=data_format)(conv1)
 
-    fire2 = fire_module('fire2',maxpool1,16,64,64,act,data_format,init)
+    fire2 = fire_module('fire2', maxpool1, 16, 64, 64, act, data_format, init)
 
-    fire3 = fire_module('fire3',fire2,16,64,64,act,data_format,init)
+    fire3 = fire_module('fire3', fire2, 16, 64, 64, act, data_format, init)
 
     maxpool3 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool3',
     data_format=data_format)(fire3)
 
-    fire4 = fire_module('fire4',maxpool3,32,128,128,act,data_format,init)
+    fire4 = fire_module('fire4', maxpool3, 32, 128, 128, act, data_format, init)
 
-    fire5 = fire_module('fire5',fire4,32,128,128,act,data_format,init)
+    fire5 = fire_module('fire5', fire4, 32, 128, 128, act, data_format, init)
 
     maxpool5 = MaxPooling2D(pool_size=[3,3], strides=[2,2], name='maxpool5',
     data_format=data_format)(fire5)
 
-    fire6 = fire_module('fire6',maxpool5,48,192,192,act,data_format,init)
+    fire6 = fire_module('fire6', maxpool5, 48, 192, 192, act, data_format, init)
 
-    fire7 = fire_module('fire7',fire6,48,192,192,act,data_format,init)
+    fire7 = fire_module('fire7', fire6, 48, 192, 192, act, data_format, init)
 
-    fire8 = fire_module('fire8',fire7,64,256,256,act,data_format,init)
+    fire8 = fire_module('fire8', fire7, 64, 256, 256, act, data_format, init)
 
-    fire9 = fire_module('fire9',fire8,64,256,256,act,data_format,init)
+    fire9 = fire_module('fire9', fire8, 64, 256, 256, act, data_format, init)
 
     fire9_dropout = Dropout(rate=0.5, name='fire9_dropout')(fire9)
 
