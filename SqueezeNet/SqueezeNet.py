@@ -40,7 +40,7 @@ def fire_module(name, x, sp, e11p, e33p, act, data_format, init):
     return output
 
 
-def SqueezeNet_v1_0(H, W, C, num_classes, act):
+def SqueezeNet_v1_0(H, W, C, num_classes, act, drop_rate=0.25, reg=0):
     """
     Keras implementation of SqueezeNet v1.0 (arXiv: 1602.07360)
     (https://arxiv.org/abs/1602.07360)
@@ -108,7 +108,7 @@ def SqueezeNet_v1_0(H, W, C, num_classes, act):
     return Model(inputs=input_img, outputs=softmax)
 
 
-def SqueezeNet_v1_1(H, W, C, num_classes, act):
+def SqueezeNet_v1_1(H, W, C, num_classes, act, drop_rate=0.25, reg=0):
     """
     Keras implementation of SqueezeNet v1.1 (arXiv: 1602.07360)
     (https://arxiv.org/abs/1602.07360)
